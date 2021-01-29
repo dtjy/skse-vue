@@ -8,6 +8,7 @@
       <button v-on:click="counterAdd()">Add 1</button>
       <p>{{ counter }}</p>
       <p>{{ msg }}</p>
+   <a-button type="primary">Button></a-button>
     </div>
   </div>
 </template>
@@ -15,7 +16,7 @@
 
 <script>
 import Aaa from "../components/Aaa.vue";
-import axios from 'axios'
+import axios from "axios";
 
 export default {
   name: "Index",
@@ -31,12 +32,20 @@ export default {
   methods: {
     counterAdd: function () {
       this.counter += 1;
-
+    
       axios
-        .post("http://localhost:6999/test/t1", { id: "abc" })
-        .then((response) => (this.msg = response))
+        .post("http://localhost:6990/test/t1", {
+          sex: "男的",
+          age: 123,
+        })
+        .then((response) => {
+          this.msg = response.data.sex;
+          console.log(this);
+        })
+        .then(function () {
+          console.log(this);
+        })
         .catch(function (error) {
-          // 请求失败处理
           console.log(error);
         });
     },
