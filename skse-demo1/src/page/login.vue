@@ -62,11 +62,11 @@
 
 <script>
 const formItemLayout = {
-  labelCol: { span: 4,offset:4 },
+  labelCol: { span: 4, offset: 4 },
   wrapperCol: { span: 10 },
 };
 const formItemLayout2 = {
-  labelCol: { span: 4,offset:4 },
+  labelCol: { span: 4, offset: 4 },
   wrapperCol: { span: 10 },
 };
 const formTailLayout = {
@@ -115,6 +115,10 @@ export default {
   border: 2px solid red;
   width: 40%;
   margin: 20% auto;
+  /* margin-top: 200px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: auto; */
   background-color: pink;
 }
 
