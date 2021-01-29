@@ -115,10 +115,6 @@ export default {
   border: 2px solid red;
   width: 40%;
   margin: 20% auto;
-  /* margin-top: 200px;
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: auto; */
   background-color: pink;
 }
 
