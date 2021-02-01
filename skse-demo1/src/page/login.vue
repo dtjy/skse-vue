@@ -1,6 +1,9 @@
 <template>
   <div id="login_main">
     <div class="login" id="login">
+      <div id="sys-title">
+        <div><a-icon type="dollar" theme="twoTone" />F进入坦克系统</div>
+      </div>
       <a-form :form="form" id="form1">
         <a-form-item
           id="codeafi"
@@ -10,7 +13,7 @@
         >
           <a-input
             v-decorator="[
-              'username',
+              'userCode',
               {
                 rules: [{ required: true, message: 'Please input your 账号' }],
               },
@@ -26,7 +29,7 @@
         >
           <a-input
             v-decorator="[
-              'nickname',
+              'password',
               {
                 rules: [
                   {
@@ -44,16 +47,7 @@
           :label-col="formTailLayout.labelCol"
           :wrapper-col="formTailLayout.wrapperCol"
         >
-          <a-checkbox :checked="checkNick" @change="handleChange">
-            都 is required
-          </a-checkbox>
-        </a-form-item>
-
-        <a-form-item
-          :label-col="formTailLayout.labelCol"
-          :wrapper-col="formTailLayout.wrapperCol"
-        >
-          <a-button type="primary" @click="check"> Check </a-button>
+          <a-button type="primary" @click="login"> 登陆 </a-button>
         </a-form-item>
       </a-form>
     </div>
@@ -61,12 +55,14 @@
 </template>
 
 <script>
+import axios from "axios";
+
 const formItemLayout = {
-  labelCol: { span: 4,offset:4 },
+  labelCol: { span: 4, offset: 4 },
   wrapperCol: { span: 10 },
 };
 const formItemLayout2 = {
-  labelCol: { span: 4,offset:4 },
+  labelCol: { span: 4, offset: 4 },
   wrapperCol: { span: 10 },
 };
 const formTailLayout = {
@@ -76,26 +72,42 @@ const formTailLayout = {
 export default {
   data() {
     return {
-      checkNick: false,
       formItemLayout,
       formTailLayout,
       formItemLayout2,
       form: this.$form.createForm(this, { name: "dynamic_rule" }),
+      userCode: "",
+      password: "",
     };
   },
   methods: {
-    check() {
-      this.form.validateFields((err) => {
+    login() {
+      this.form.validateFields((err, values) => {
         if (!err) {
-          console.info("success");
+          this.userCode = values.userCode;
+          this.password = values.password;
+          console.log(this.password);
+          //登陆接口
+          axios
+            .post("http://localhost:6990/login/do", {
+              userCode: this.userCode,
+              password: this.password,
+            })
+            .then((response) => {
+              console.log(response.data);
+              this.$router.replace('/index')
+            })
+            .then(function () {
+              console.log(this);
+            })
+            .catch(function (error) {
+              console.log(error);
+            });
         }
       });
-    },
-    handleChange(e) {
-      this.checkNick = e.target.checked;
-      this.$nextTick(() => {
-        this.form.validateFields(["nickname"], { force: true });
-      });
+
+      //其他操作
+      // console.log(this.userCode)
     },
   },
 };
@@ -130,5 +142,14 @@ export default {
 
 #codeafi {
   margin: 0 20%;
+}
+
+#sys-title {
+  /* border: 2px solid white; */
+  text-align: center;
+  line-height: 40px;
+  height: 40px;
+  font-size: 40px;
+  margin: 20px 0;
 }
 </style>
